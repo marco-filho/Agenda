@@ -10,7 +10,7 @@ namespace Agenda.Desktop.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Evento> Eventos { get; set; }
-        public DbSet<ParticipantesEmEventos> ParticipantesEmEventos { get; set; }
+        public DbSet<Participante> ParticipantesEmEventos { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -21,7 +21,7 @@ namespace Agenda.Desktop.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<Evento>().HasKey(t => t.Id);
-            builder.Entity<ParticipantesEmEventos>().HasKey(t => t.Id);
+            builder.Entity<Participante>().HasKey(t => t.Id);
         }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Agenda.Desktop.Migrations.AppIdentity
 {
-    public partial class Identity : Migration
+    public partial class IdentityInitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

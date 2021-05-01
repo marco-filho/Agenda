@@ -46,21 +46,24 @@ namespace Agenda.Desktop.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [DataType(DataType.Text)]
             [Required(ErrorMessage = "É necessário preencher o campo {0}.")]
             [Display(Name = "Nome de Usuário")]
             public string UserName { get; set; }
             
+            [DataType(DataType.Text)]
             [Required(ErrorMessage = "É necessário preencher o campo {0}.")]
             [Display(Name = "Nome")]
             public string Nome { get; set; }
             
+            [DataType(DataType.EmailAddress)]
             [Required(ErrorMessage = "É necessário preencher o campo {0}.")]
             [EmailAddress(ErrorMessage = "O email fornecido não é válido.")]
             public string Email { get; set; }
 
+            [DataType(DataType.Password)]
             [Required(ErrorMessage = "É necessário preencher o campo {0}.")]
             [StringLength(100, ErrorMessage = "O campo {0} precisa ter ao menos {2} e no máximo {1} caracteres.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
             [Display(Name = "Senha")]
             public string Password { get; set; }
 
@@ -82,7 +85,7 @@ namespace Agenda.Desktop.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new AppIdentityUser { UserName = Input.Email, Email = Input.Email }; // trocar username
+                var user = new AppIdentityUser { UserName = Input.UserName, Email = Input.Email, Nome = Input.Nome }; // trocar username
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

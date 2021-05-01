@@ -49,7 +49,7 @@ namespace Agenda.Desktop.Models
         public string Tipo { get; set; }
 
         [Display(Name = "Lista de Participantes")]
-        public IEnumerable<ParticipantesEmEventos> ListaDeParticipantes { get; set; }
+        public IEnumerable<Participante> ListaDeParticipantes { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime DataCriado { get; set; }
@@ -103,41 +103,6 @@ namespace Agenda.Desktop.Models
             return new ValidationResult(string.Format
                 ("Em conflito com evento exclusivo existente: {0} ({1} - {2})", conflito.Nome, conflito.DataInicial, conflito.DataFinal));
         }
-
-        #region
-        //tentativa falha de validar eventos exclusivos por usuario 
-        //não funcionou porque validações precisavam de override no método virtual IsValid
-        //protected System.Threading.Tasks.Task<ValidationResult> IsValidAsync(object value, ValidationContext validationContext)
-        //{
-        //    Type _t = validationContext.ObjectInstance.GetType();
-
-        //    var startDate = (DateTime)_t.GetProperty(inical).
-        //        GetValue(validationContext.ObjectInstance);
-        //    var finalDate = (DateTime)_t.GetProperty(final).
-        //        GetValue(validationContext.ObjectInstance);
-
-        //    var context = (ApplicationDbContext)validationContext
-        //        .GetService(typeof(ApplicationDbContext));
-        //    var userManager = (UserManager<AppIdentityUser>)validationContext
-        //        .GetService(typeof(UserManager<AppIdentityUser>));
-        //    var httpContext = (HttpContext)validationContext
-        //        .GetService(typeof(HttpContext));
-
-        //    string tipo = (string)value;
-        //    if (tipo != "Exclusivo") return ValidationResult.Success; ;
-
-        //    var user = await userManager.GetUserAsync(httpContext.User);
-        //    var exlusivosFromCurrentUser = context.Eventos.Where(e => e.AppIdentityUserId == user.Id && e.Tipo == tipo).AsEnumerable();
-        //    Evento conflito = new Evento();
-        //    foreach (var exclusivo in exlusivosFromCurrentUser)
-        //    {
-        //        if (finalDate < exclusivo.DataInicial) return ValidationResult.Success;
-        //        if (exclusivo.DataFinal < startDate) return ValidationResult.Success;
-        //        conflito = exclusivo;
-        //    }
-        //    return new ValidationResult(string.Format
-        //        ("Em conflito com evento exlusivo existente: {0} ({1} - {2})", conflito.Nome, conflito.DataInicial, conflito.DataFinal));
-        #endregion
     }
 
     public class DateTimeCompareAttribute : ValidationAttribute, IClientValidatable

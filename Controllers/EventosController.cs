@@ -79,8 +79,8 @@ namespace Agenda.Desktop.Controllers
                 {
                     foreach (var participante in evento.ListaDeParticipantes)
                     {
-                        context.ParticipantesEmEventos.Add(new ParticipantesEmEventos
-                        { EventoId = evento.Id, IdParticipante = participante.IdParticipante });
+                        //context.ParticipantesEmEventos.Add(new Participante
+                        //{ EventoId = evento.Id, IdParticipante = participante.IdParticipante });
                     }
                     evento.Participantes = evento.ListaDeParticipantes.Count();
                 }
@@ -90,8 +90,8 @@ namespace Agenda.Desktop.Controllers
                 evento.DataCriado = DateTime.Now;
                 evento.DataAlterado = DateTime.Now;
                 context.Eventos.Add(evento);
-                context.ParticipantesEmEventos.Add(new ParticipantesEmEventos
-                { EventoId = idUltimoRegistro, IdParticipante = usuario.Id });
+                //context.ParticipantesEmEventos.Add(new Participante
+                //{ EventoId = idUltimoRegistro, IdParticipante = usuario.Id });
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }

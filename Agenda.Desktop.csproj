@@ -37,20 +37,6 @@
     <Compile Remove="Migrations\20210110175642_UsuarioCustomizado.Designer.cs" />
     <Compile Remove="Migrations\20210111080727_CreateDbSchema.cs" />
     <Compile Remove="Migrations\20210111080727_CreateDbSchema.Designer.cs" />
-    <Compile Remove="Migrations\AppIdentity\20210111081351_Identity.cs" />
-    <Compile Remove="Migrations\AppIdentity\20210111081351_Identity.Designer.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210110180516_CreateDbSchema.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210110180516_CreateDbSchema.Designer.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210110180709_CreateDbSchema.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210110180709_CreateDbSchema.Designer.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210110181409_CreateDbSchema.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210110181409_CreateDbSchema.Designer.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210110182813_CreateDbSchema.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210110182813_CreateDbSchema.Designer.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210110200134_CreateDbSchema.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210110200134_CreateDbSchema.Designer.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210111042832_CreateDbSchema.cs" />
-    <Compile Remove="Migrations\ApplicationDb\20210111042832_CreateDbSchema.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BeginCollectionItem" Version="1.2.1" />
@@ -73,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Migrations\AppIdentity\" />
-    <Folder Include="Migrations\ApplicationDb\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

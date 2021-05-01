@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Agenda.Desktop.Migrations
 {
-    public partial class CreateDbSchema : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,7 +35,7 @@ namespace Agenda.Desktop.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdParticipante = table.Column<string>(nullable: true),
+                    username = table.Column<string>(nullable: true),
                     EventoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

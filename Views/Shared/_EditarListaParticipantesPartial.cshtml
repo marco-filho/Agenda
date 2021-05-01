@@ -1,10 +1,10 @@
-﻿@model IEnumerable<ParticipantesEmEventos>
+﻿@model Evento
 
 @using Agenda.Desktop.Areas.Identity.Data;
 @using Microsoft.AspNetCore.Identity;
-@using 
+@using
 @{
-   var userManager = (UserManager<AppIdentityUser>)Context.RequestServices.GetService(typeof(UserManager<AppIdentityUser>));
+    var userManager = (UserManager<AppIdentityUser>)Context.RequestServices.GetService(typeof(UserManager<AppIdentityUser>));
 }
 <div class="container">
     <div class="dropdown">
@@ -20,8 +20,8 @@
             }
         </div>
     </div>
-    <select class="list-group bg-light border" multiple id="formListaDeParticipantes"
-            style="height: 7em; overflow-y: scroll; width: inherit"></select>
+    <select class="list-group bg-light border" multiple id="formListaDeParticipantes" name="ListaDeParticipantes"
+            style="height: 7em; overflow-y: scroll; width: inherit" asp-for="ListaDeParticipantes"></select>
     <div class="row">
         <div class="col pr-0"><a class="btn btn-block btn-light border" onclick="removeFromList()">Remover</a></div>
         <div class="col pl-0"><a class="btn btn-block btn-light border" onclick="clearList()">Limpar lista</a></div>
@@ -32,7 +32,7 @@
     function filterFunction() {
         //javascript para filtrar busca de usuários, incompleto, quebrado
 
-        //var input, filter, div, a, i;
+        //let input, filter, div, a, i;
         //input = document.getElementById("input");
         //filter = input.value.toUpperCase();
         //div = document.getElementById("listaDeParticipantes");
@@ -48,10 +48,18 @@
         //}
     }
 
+    function selectOptions() {
+        let listaSelecionada = $("#formListaDeParticipantes").children();
+        for (i = 0; i < listaSelecionada.length; i++) {
+            $(listaSelecionada[i]).attr("selected", "true");
+        }
+    }
+
     function addToList(usuario) {
-        var lista = document.getElementById("formListaDeParticipantes");
-        var item = document.createElement("option");
-        item.text = $(usuario).text()
+        let lista = document.getElementById("formListaDeParticipantes");
+        let item = document.createElement("option");
+        item.text = $(usuario).text();
+        item.value = $(usuario).text();
         item.className = "list-group-item list-group-flush py-1 form-control";
         lista.appendChild(item);
     }
