@@ -122,19 +122,19 @@ namespace Agenda.Desktop.Controllers
                 var usuario = await userManager.GetUserAsync(this.User);
                 var antigoEvento = context.Eventos.AsNoTracking().SingleOrDefault
                     (e => e.Id == evento.Id);
-                var dbContextParticipantesEmEventos = context.ParticipantesEmEventos;
+                //var dbContextParticipantesEmEventos = context.ParticipantesEmEventos;
 
-                if (evento.ListaDeParticipantes != null)
-                {
-                    foreach (var participante in evento.ListaDeParticipantes)
-                    {
-                        if (antigoEvento.ListaDeParticipantes.Contains(participante))
-                            dbContextParticipantesEmEventos.Update(participante);
-                        else
-                            dbContextParticipantesEmEventos.Remove(participante);
-                    }
-                    evento.Participantes = evento.ListaDeParticipantes.Count();
-                }
+                //if (evento.ListaDeParticipantes != null)
+                //{
+                //    foreach (var participante in evento.ListaDeParticipantes)
+                //    {
+                //        if (antigoEvento.ListaDeParticipantes.Contains(participante))
+                //            dbContextParticipantesEmEventos.Update(participante);
+                //        else
+                //            dbContextParticipantesEmEventos.Remove(participante);
+                //    }
+                //    evento.Participantes = evento.ListaDeParticipantes.Count();
+                //}
 
                 evento.Participantes += 1;
                 evento.AppIdentityUserId = usuario.Id;
@@ -146,6 +146,42 @@ namespace Agenda.Desktop.Controllers
             }
 
             return View(evento);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public List<Participante> SearchUsers([FromBody] string entrada)
+        {
+            if (entrada == null || entrada == "")
+                return null;
+
+            var query = userManager.Users
+                .Where(p => p.UserName.Contains(entrada))
+                .Concat(userManager.Users
+                    .Where(p => p.Nome.Contains(entrada)))
+                .OrderByDescending(p => p.Nome)
+                .Take(10)
+                .ToList();
+            query.TrimExcess();
+
+            var match = new List<Participante>();
+
+            foreach (var item in query)
+            {
+                match.Add(
+                    new Participante()
+                    {
+                        Username = item.UserName,
+                        Nome = item.Nome
+                    });
+            }
+
+            for (int i = 0; i < match.Count; i++)
+                for (int j = 1; j < match.Count; j++)
+                    if (match[i].Username.Equals(match[j].Username))
+                        match.RemoveAt(j);
+
+            return match;
         }
 
         [Authorize]
@@ -172,13 +208,13 @@ namespace Agenda.Desktop.Controllers
 
             context.Eventos.Remove(evento);
 
-            var participantesEmEventos = context.ParticipantesEmEventos.
-                Where(x => x.EventoId == evento.Id);
+            //var participantesEmEventos = context.Participantes.
+            //    Where(x => x.EventoId == evento.Id);
 
-            foreach (var participante in participantesEmEventos)
-            {
-                context.ParticipantesEmEventos.Remove(participante);
-            }
+            //foreach (var participante in participantesEmEventos)
+            //{
+            //    context.Participantes.Remove(participante);
+            //}
 
             context.SaveChanges();
 

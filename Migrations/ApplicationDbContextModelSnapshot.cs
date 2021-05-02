@@ -77,14 +77,17 @@ namespace Agenda.Desktop.Migrations
                     b.Property<int>("EventoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("username")
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EventoId");
 
-                    b.ToTable("ParticipantesEmEventos");
+                    b.ToTable("Participantes");
                 });
 
             modelBuilder.Entity("Agenda.Desktop.Models.Participante", b =>

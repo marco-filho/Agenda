@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Agenda.Desktop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210501213504_InitialCreate")]
+    [Migration("20210502030214_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,14 +79,17 @@ namespace Agenda.Desktop.Migrations
                     b.Property<int>("EventoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("username")
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EventoId");
 
-                    b.ToTable("ParticipantesEmEventos");
+                    b.ToTable("Participantes");
                 });
 
             modelBuilder.Entity("Agenda.Desktop.Models.Participante", b =>

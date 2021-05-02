@@ -30,19 +30,20 @@ namespace Agenda.Desktop.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ParticipantesEmEventos",
+                name: "Participantes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    username = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: true),
+                    Nome = table.Column<string>(nullable: true),
                     EventoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ParticipantesEmEventos", x => x.Id);
+                    table.PrimaryKey("PK_Participantes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ParticipantesEmEventos_Eventos_EventoId",
+                        name: "FK_Participantes_Eventos_EventoId",
                         column: x => x.EventoId,
                         principalTable: "Eventos",
                         principalColumn: "Id",
@@ -50,15 +51,15 @@ namespace Agenda.Desktop.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ParticipantesEmEventos_EventoId",
-                table: "ParticipantesEmEventos",
+                name: "IX_Participantes_EventoId",
+                table: "Participantes",
                 column: "EventoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ParticipantesEmEventos");
+                name: "Participantes");
 
             migrationBuilder.DropTable(
                 name: "Eventos");

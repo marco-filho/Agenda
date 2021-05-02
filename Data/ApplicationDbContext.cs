@@ -10,7 +10,7 @@ namespace Agenda.Desktop.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Evento> Eventos { get; set; }
-        public DbSet<Participante> ParticipantesEmEventos { get; set; }
+        public DbSet<Participante> Participantes { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

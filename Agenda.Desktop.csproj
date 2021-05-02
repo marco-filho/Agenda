@@ -37,6 +37,8 @@
     <Compile Remove="Migrations\20210110175642_UsuarioCustomizado.Designer.cs" />
     <Compile Remove="Migrations\20210111080727_CreateDbSchema.cs" />
     <Compile Remove="Migrations\20210111080727_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Migrations\20210501213504_InitialCreate.cs" />
+    <Compile Remove="Migrations\20210501213504_InitialCreate.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BeginCollectionItem" Version="1.2.1" />

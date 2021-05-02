@@ -1,27 +1,16 @@
-﻿@model Evento
+﻿@model IEnumerable<Participante>
 
-@using Agenda.Desktop.Areas.Identity.Data;
-@using Microsoft.AspNetCore.Identity;
-@using
-@{
-    var userManager = (UserManager<AppIdentityUser>)Context.RequestServices.GetService(typeof(UserManager<AppIdentityUser>));
-}
 <div class="container">
     <div class="dropdown">
         <label aria-label="Adicionar participantes">Adicionar participantes</label>
-        <input class="form-control py-1 mb-1" type="text" placeholder="Busca" aria-label="Busca" data-toggle="dropdown" id="input">
-        <div class="dropdown-menu dropdown-primary" id="listaDeParticipantes">
-            @foreach (var usuario in userManager.Users)
-            {
-                if (usuario != await userManager.GetUserAsync(User))
-                {
-                    <a class="btn dropdown-item" onclick="addToList(this)">@usuario.Nome (@usuario.UserName)</a>
-                }
-            }
+        <input class="form-control py-1 mb-1" oninput="search(this)" onfocus="search(this)" type="text" placeholder="Busca"
+               aria-label="Busca" data-toggle="dropdown" id="input">
+        <div class="dropdown-menu dropdown-primary w-100" id="participantes-dropdown">
         </div>
     </div>
-    <select class="list-group bg-light border" multiple id="formListaDeParticipantes" name="ListaDeParticipantes"
-            style="height: 7em; overflow-y: scroll; width: inherit" asp-for="ListaDeParticipantes"></select>
+    <select class="list-group bg-light border" multiple id="formListaDeParticipantes"
+            style="height: 7em; overflow-y: scroll; width: inherit">
+    </select>
     <div class="row">
         <div class="col pr-0"><a class="btn btn-block btn-light border" onclick="removeFromList()">Remover</a></div>
         <div class="col pl-0"><a class="btn btn-block btn-light border" onclick="clearList()">Limpar lista</a></div>
@@ -29,23 +18,45 @@
 </div>
 
 <script type="text/javascript">
-    function filterFunction() {
-        //javascript para filtrar busca de usuários, incompleto, quebrado
+    function search(element) {
+        $("#participantes-dropdown").children().remove();
 
-        //let input, filter, div, a, i;
-        //input = document.getElementById("input");
-        //filter = input.value.toUpperCase();
-        //div = document.getElementById("listaDeParticipantes");
-        //users = div.getElementsByTagName("a");
-        //for (i = 0; i < users.length; i++)
-        //{
-        //    txtValue = users[i].textContent || users[i].innerText;
-        //    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        //        users[i].style.display = "";
-        //    } else {
-        //        users[i].style.display = "none";
-        //    }
-        //}
+        let token = $('[name=__RequestVerificationToken]').val();
+
+        let headers = {};
+        headers['RequestVerificationToken'] = token
+
+        $.ajax({
+            url: '/Eventos/SearchUsers',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify($(element).val()),
+            headers: headers
+        }).done(function (response) {
+            let users = response;
+            if (users == null) return;
+            for (i = 0; i < users.length; i++) {
+                let a = document.createElement("a");
+                a.className = "btn dropdown-item";
+                a.setAttribute("onclick", "addToList(this)");
+                a.text = users[i].nome + ' (@@' + users[i].username + ')';
+                $("#participantes-dropdown").append(a);
+            }
+            filter();
+        });
+    }
+
+    function filter() {
+        let users = $("#participantes-dropdown").children();
+        let selected = $("#formListaDeParticipantes").children();
+        for (i = 0; i < selected.length; i++) {
+            for (j = 0; j < users.length; j++) {
+                if (selected[i].text == users[j].text) {
+                    users[j].remove();
+                    users.splice(j);
+                }
+            }
+        }
     }
 
     function selectOptions() {
