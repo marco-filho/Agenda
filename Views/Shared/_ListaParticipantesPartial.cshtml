@@ -2,10 +2,11 @@
 
 <div class="col">
     <div class="list-group list-group-flush list">
-        @foreach (var participante in Model.ListaDeParticipantes)
-        {
-            <div class="list-group-item bg-transparent p-0 ml-2 py-1">@participante.Nome (@participante.Username)</div>
-        }
+        @if(Model.ListaDeParticipantes != null)
+            @foreach (var participante in Model.ListaDeParticipantes)
+            {
+                <div class="list-group-item bg-transparent p-0 ml-2 py-1">@participante.Nome (@@@participante.Username)</div>
+            }
     </div>
     <div class="align-bottom m-0">
         <ul class="pagination m-0">

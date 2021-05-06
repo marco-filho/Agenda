@@ -33,8 +33,14 @@ namespace Agenda.Desktop.Controllers
         {
             var usuario = await userManager.GetUserAsync(this.User);
 
-            var eventosDoUsuario = context.Eventos.
-                Where(e => e.AppIdentityUserId == usuario.Id.ToString()).AsEnumerable();
+            //var eventosDoUsuario = context.Eventos.First(e => e.AppIdentityUserId == usuario.Id);
+            //var test = context.Participantes.First(p => p.EventoId == 1).AsEnumerable();
+            var eventosDoUsuario = context.Eventos
+                .Where(e => e.AppIdentityUserId == usuario.Id).AsEnumerable();
+            //var test = Enumerable.Empty<Participante>();
+            //foreach (var evento in eventosDoUsuario)
+            //    //evento.ListaDeParticipantes =
+            //    test = context.Participantes.Where(p => p.EventoId == evento.Id).AsEnumerable();
 
             return View(eventosDoUsuario);
         }
@@ -67,31 +73,30 @@ namespace Agenda.Desktop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> NewEventoAsync(Evento evento)
         {
-            var usuario = await userManager.GetUserAsync(this.User);
             if (ModelState.IsValid)
             {
-                var ultimoRegistro = context.Eventos.AsNoTracking().AsEnumerable();
-                int idUltimoRegistro = 1;
-                if (ultimoRegistro.Count() > 0)
-                    idUltimoRegistro = ultimoRegistro.Last().Id + 1;
+                var usuario = await userManager.GetUserAsync(this.User);
+                if (evento.ListaDeParticipantes == null)
+                    evento.ListaDeParticipantes = Enumerable.Empty<Participante>();
 
-                if (evento.ListaDeParticipantes != null)
+                evento.ListaDeParticipantes = evento.ListaDeParticipantes
+                    .Prepend(new Participante { Username = usuario.UserName, Nome = usuario.Nome })
+                    .ToList();
+
+                foreach (var participante in evento.ListaDeParticipantes)
                 {
-                    foreach (var participante in evento.ListaDeParticipantes)
-                    {
-                        //context.ParticipantesEmEventos.Add(new Participante
-                        //{ EventoId = evento.Id, IdParticipante = participante.IdParticipante });
-                    }
-                    evento.Participantes = evento.ListaDeParticipantes.Count();
+                    var usuarioParticipante = userManager.Users
+                        .FirstOrDefault(u => u.UserName == participante.Username);
+                    if (usuarioParticipante != null)
+                        participante.Nome = usuarioParticipante.Nome;
+                    else
+                        return BadRequest();
                 }
 
-                evento.Participantes += 1;
+                evento.Participantes = evento.ListaDeParticipantes.Count();
                 evento.AppIdentityUserId = usuario.Id;
-                evento.DataCriado = DateTime.Now;
-                evento.DataAlterado = DateTime.Now;
+                evento.DataCriado = evento.DataAlterado = DateTime.Now;
                 context.Eventos.Add(evento);
-                //context.ParticipantesEmEventos.Add(new Participante
-                //{ EventoId = idUltimoRegistro, IdParticipante = usuario.Id });
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -138,7 +143,7 @@ namespace Agenda.Desktop.Controllers
 
                 evento.Participantes += 1;
                 evento.AppIdentityUserId = usuario.Id;
-                evento.DataCriado = antigoEvento.DataCriado;
+                //evento.DataCriado = antigoEvento.DataCriado; really necessary?
                 evento.DataAlterado = DateTime.Now;
                 context.Eventos.Update(evento);
                 context.SaveChanges();
@@ -148,38 +153,31 @@ namespace Agenda.Desktop.Controllers
             return View(evento);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public List<Participante> SearchUsers([FromBody] string entrada)
+        public async Task<List<Participante>> SearchUsersAsync([FromBody] string entrada)
         {
             if (entrada == null || entrada == "")
                 return null;
 
+            var usuario = await userManager.GetUserAsync(this.User);
             var query = userManager.Users
-                .Where(p => p.UserName.Contains(entrada))
-                .Concat(userManager.Users
-                    .Where(p => p.Nome.Contains(entrada)))
+                .Where(p => (p.UserName.Contains(entrada) || p.Nome.Contains(entrada))
+                && p.UserName != usuario.UserName)
                 .OrderByDescending(p => p.Nome)
-                .Take(10)
-                .ToList();
+                .Take(10).ToList();
             query.TrimExcess();
 
             var match = new List<Participante>();
 
             foreach (var item in query)
-            {
                 match.Add(
                     new Participante()
                     {
                         Username = item.UserName,
                         Nome = item.Nome
                     });
-            }
-
-            for (int i = 0; i < match.Count; i++)
-                for (int j = 1; j < match.Count; j++)
-                    if (match[i].Username.Equals(match[j].Username))
-                        match.RemoveAt(j);
 
             return match;
         }

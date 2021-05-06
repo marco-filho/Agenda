@@ -8,9 +8,19 @@
         <div class="dropdown-menu dropdown-primary w-100" id="participantes-dropdown">
         </div>
     </div>
-    <select class="list-group bg-light border" multiple id="formListaDeParticipantes"
+    <select class="list-group bg-light border" multiple id="lista-de-participantes"
             style="height: 7em; overflow-y: scroll; width: inherit">
+        @if (Model != null || Model.Count() > 0)
+        {
+            foreach (var usuario in Model)
+            {
+                <option class="list-group-item list-group-flush py-1" value="@usuario.Username">
+                    @usuario.Nome (@usuario.Username)
+                </option>
+            }
+        }
     </select>
+    <div hidden id="submission"></div>
     <div class="row">
         <div class="col pr-0"><a class="btn btn-block btn-light border" onclick="removeFromList()">Remover</a></div>
         <div class="col pl-0"><a class="btn btn-block btn-light border" onclick="clearList()">Limpar lista</a></div>
@@ -19,7 +29,7 @@
 
 <script type="text/javascript">
     function search(element) {
-        $("#participantes-dropdown").children().remove();
+        $('#participantes-dropdown').children().remove();
 
         let token = $('[name=__RequestVerificationToken]').val();
 
@@ -36,50 +46,55 @@
             let users = response;
             if (users == null) return;
             for (i = 0; i < users.length; i++) {
-                let a = document.createElement("a");
-                a.className = "btn dropdown-item";
-                a.setAttribute("onclick", "addToList(this)");
+                let a = document.createElement('a');
+                a.className = 'btn dropdown-item';
+                a.setAttribute('onclick', 'addToList(this)');
+                a.setAttribute('id', users[i].username);
                 a.text = users[i].nome + ' (@@' + users[i].username + ')';
-                $("#participantes-dropdown").append(a);
+                $('#participantes-dropdown').append(a);
             }
             filter();
         });
     }
 
     function filter() {
-        let users = $("#participantes-dropdown").children();
-        let selected = $("#formListaDeParticipantes").children();
+        let users = $('#participantes-dropdown').children();
+        let selected = $('#lista-de-participantes').children();
         for (i = 0; i < selected.length; i++) {
             for (j = 0; j < users.length; j++) {
                 if (selected[i].text == users[j].text) {
                     users[j].remove();
-                    users.splice(j);
+                    users.splice(j, 1);
                 }
             }
         }
     }
 
-    function selectOptions() {
-        let listaSelecionada = $("#formListaDeParticipantes").children();
-        for (i = 0; i < listaSelecionada.length; i++) {
-            $(listaSelecionada[i]).attr("selected", "true");
+    function submitList() {
+        let selectedList = $('#lista-de-participantes').children();
+        for (i = 0; i < selectedList.length; i++) {
+            let submissionInput = document.createElement('input');
+            submissionInput.setAttribute('name', 'ListaDeParticipantes[' + i + '].username');
+            submissionInput.setAttribute('type', 'hidden');
+            submissionInput.value = $(selectedList[i]).val();
+            $('#submission').append(submissionInput);
         }
     }
 
     function addToList(usuario) {
-        let lista = document.getElementById("formListaDeParticipantes");
-        let item = document.createElement("option");
+        let lista = $('#lista-de-participantes');
+        let item = document.createElement('option');
         item.text = $(usuario).text();
-        item.value = $(usuario).text();
-        item.className = "list-group-item list-group-flush py-1 form-control";
-        lista.appendChild(item);
+        item.value = $(usuario).attr('id');
+        item.className = 'list-group-item list-group-flush py-1 form-control';
+        lista.append(item);
     }
 
     function removeFromList() {
-        $("#formListaDeParticipantes option:selected").remove();
+        $('#lista-de-participantes option:selected').remove();
     }
 
     function clearList() {
-        $("#formListaDeParticipantes").empty();
+        $('#lista-de-participantes').empty();
     }
 </script>
