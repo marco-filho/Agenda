@@ -1,0 +1,80 @@
+﻿@model Evento
+@using Agenda.Desktop.Areas.Identity.Data;
+@using Microsoft.AspNetCore.Identity;
+@using Agenda.Desktop.Data;
+@{
+    ViewData["Title"] = "Novo Evento";
+}
+
+<form method="post">
+    <div class="container shadow rounded-lg bg-white col-auto">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="text-primary form-group">
+            <h1 class="ml-1 pt-2">
+                @ViewData["Title"]
+            </h1>
+        </div>
+
+        <div class="form-group row px-2 py-1">
+            <div class="col py-1" style="min-width: 20em">
+                <label asp-for="Nome"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="col-auto row">
+                <div class="col-auto py-1">
+                    <label asp-for="DataInicial"></label>
+                    <input asp-for="DataInicial" class="form-control w-auto" type="datetime-local">
+                    <span asp-validation-for="DataInicial" class="text-danger"></span>
+                </div>
+                <div class="col-auto py-1">
+                    <label asp-for="DataFinal"></label>
+                    <input asp-for="DataFinal" class="form-control w-auto" type="datetime-local">
+                    <span asp-validation-for="DataFinal" class="text-danger"></span>
+                </div>
+                <div class="col-auto py-1">
+                    <label asp-for="Local"></label>
+                    <input asp-for="Local" class="form-control" />
+                    <span asp-validation-for="Local" class="text-danger"></span>
+                </div>
+                <div class="col-auto py-1">
+                    <label asp-for="Tipo"></label>
+                    <select asp-for="Tipo" class="form-control w-auto">
+                        <option></option>
+                        <option>Exclusivo</option>
+                        <option>Compartilhado</option>
+                    </select>
+                    <span asp-validation-for="Tipo" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row px-2">
+            <div class="col">
+                <label asp-for="Descricao"></label>
+                <textarea class="form-control" asp-for="Descricao" rows="8"></textarea>
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="col-lg-4 col-md-5 col-sm-12 py-1 px-2">
+                <partial name="_EditarListaParticipantesPartial" model="new List<ParticipantesEmEventos>()"/>
+                                    @*quando a implementação estivesse completa, o certo seria model="Model.ListaDeParticipantes"*@
+            </div>
+        </div>
+        <div class="form-group row pb-3 px-2">
+            <div class="col row justify-content-end">
+                <div class="col-auto">
+                    <input type="submit" class="btn btn-success w-auto" value="Confirmar" />
+                </div>
+                <div class="col-auto">
+                    <a asp-action="Index" class="btn btn-primary w-auto">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+

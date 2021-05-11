@@ -1,0 +1,79 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-Agenda.Desktop-F208B640-A762-45AA-A6E5-5D05769B6EBC</UserSecretsId>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.cs" />
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210109201639_CreateDbSchema.cs" />
+    <Compile Remove="Data\Migrations\20210109201639_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210109215733_v.cs" />
+    <Compile Remove="Data\Migrations\20210109215733_v.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210109215853_CreateDbSchema.cs" />
+    <Compile Remove="Data\Migrations\20210109215853_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210110164502_CreateDbSchema.cs" />
+    <Compile Remove="Data\Migrations\20210110164502_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210110175135_CreateDbSchema.cs" />
+    <Compile Remove="Data\Migrations\20210110175135_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210110175317_CreateDbSchema.cs" />
+    <Compile Remove="Data\Migrations\20210110175317_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210110175619_CreateDbSchema.cs" />
+    <Compile Remove="Data\Migrations\20210110175619_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Migrations\20210109054415_Identity.cs" />
+    <Compile Remove="Migrations\20210109054415_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20210110071252_UsuarioCustomizado.cs" />
+    <Compile Remove="Migrations\20210110071252_UsuarioCustomizado.Designer.cs" />
+    <Compile Remove="Migrations\20210110135739_UsuarioCustomizado.cs" />
+    <Compile Remove="Migrations\20210110135739_UsuarioCustomizado.Designer.cs" />
+    <Compile Remove="Migrations\20210110155134_UsuarioCustomizado.cs" />
+    <Compile Remove="Migrations\20210110155134_UsuarioCustomizado.Designer.cs" />
+    <Compile Remove="Migrations\20210110161059_UsuarioCustomizado.cs" />
+    <Compile Remove="Migrations\20210110161059_UsuarioCustomizado.Designer.cs" />
+    <Compile Remove="Migrations\20210110164227_UsuarioCustomizado.cs" />
+    <Compile Remove="Migrations\20210110164227_UsuarioCustomizado.Designer.cs" />
+    <Compile Remove="Migrations\20210110175642_UsuarioCustomizado.cs" />
+    <Compile Remove="Migrations\20210110175642_UsuarioCustomizado.Designer.cs" />
+    <Compile Remove="Migrations\20210111080727_CreateDbSchema.cs" />
+    <Compile Remove="Migrations\20210111080727_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Migrations\AppIdentity\20210111081351_Identity.cs" />
+    <Compile Remove="Migrations\AppIdentity\20210111081351_Identity.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210110180516_CreateDbSchema.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210110180516_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210110180709_CreateDbSchema.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210110180709_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210110181409_CreateDbSchema.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210110181409_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210110182813_CreateDbSchema.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210110182813_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210110200134_CreateDbSchema.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210110200134_CreateDbSchema.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210111042832_CreateDbSchema.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210111042832_CreateDbSchema.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BeginCollectionItem" Version="1.2.1" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="electron.manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+    <Folder Include="Migrations\AppIdentity\" />
+    <Folder Include="Migrations\ApplicationDb\" />
+  </ItemGroup>
+</Project>

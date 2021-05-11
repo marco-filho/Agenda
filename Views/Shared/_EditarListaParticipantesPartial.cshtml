@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ParticipantesEmEventos>
+
+@using Agenda.Desktop.Areas.Identity.Data;
+@using Microsoft.AspNetCore.Identity;
+@using 
+@{
+   var userManager = (UserManager<AppIdentityUser>)Context.RequestServices.GetService(typeof(UserManager<AppIdentityUser>));
+}
+<div class="container">
+    <div class="dropdown">
+        <label aria-label="Adicionar participantes">Adicionar participantes</label>
+        <input class="form-control py-1 mb-1" type="text" placeholder="Busca" aria-label="Busca" data-toggle="dropdown" id="input">
+        <div class="dropdown-menu dropdown-primary" id="listaDeParticipantes">
+            @foreach (var usuario in userManager.Users)
+            {
+                if (usuario != await userManager.GetUserAsync(User))
+                {
+                    <a class="btn dropdown-item" onclick="addToList(this)">@usuario.Nome (@usuario.UserName)</a>
+                }
+            }
+        </div>
+    </div>
+    <select class="list-group bg-light border" multiple id="formListaDeParticipantes"
+            style="height: 7em; overflow-y: scroll; width: inherit"></select>
+    <div class="row">
+        <div class="col pr-0"><a class="btn btn-block btn-light border" onclick="removeFromList()">Remover</a></div>
+        <div class="col pl-0"><a class="btn btn-block btn-light border" onclick="clearList()">Limpar lista</a></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function filterFunction() {
+        //javascript para filtrar busca de usuários, incompleto, quebrado
+
+        //var input, filter, div, a, i;
+        //input = document.getElementById("input");
+        //filter = input.value.toUpperCase();
+        //div = document.getElementById("listaDeParticipantes");
+        //users = div.getElementsByTagName("a");
+        //for (i = 0; i < users.length; i++)
+        //{
+        //    txtValue = users[i].textContent || users[i].innerText;
+        //    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        //        users[i].style.display = "";
+        //    } else {
+        //        users[i].style.display = "none";
+        //    }
+        //}
+    }
+
+    function addToList(usuario) {
+        var lista = document.getElementById("formListaDeParticipantes");
+        var item = document.createElement("option");
+        item.text = $(usuario).text()
+        item.className = "list-group-item list-group-flush py-1 form-control";
+        lista.appendChild(item);
+    }
+
+    function removeFromList() {
+        $("#formListaDeParticipantes option:selected").remove();
+    }
+
+    function clearList() {
+        $("#formListaDeParticipantes").empty();
+    }
+</script>

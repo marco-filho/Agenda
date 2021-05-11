@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Evento>
+@{
+    ViewData["Title"] = "Meus Eventos";
+}
+
+
+<div class="justify-content-start">
+    <div class="container shadow rounded-lg bg-white col-auto">
+        <div class="row pt-3">
+            <div class="col">
+                <h1 class="text-primary ml-4 pt-2">@ViewData["Title"]</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="ml-4 pt-2">Pesquisa por intervalo</h4>
+            </div>
+        </div>
+        <partial name="_BuscaPorCampoPartial" model="@new Evento()" />
+        <div class="row pb-3 pt-1">
+            <div class="col align-bottom d-inline">
+                <a asp-action="NewEvento" class="btn btn-primary float-right mr-3">
+                    <i class="fas fa-plus-circle"></i> Novo Evento
+                </a>
+            </div>
+        </div>
+
+        <div class="row px-3">
+            <div class="flex-column flex-shrink-1 w-100 mb-3 mx-3">
+                <table class="table table-bordered table-striped table-hover" style="width: 100%">
+                    <thead class="thread thead-dark">
+                        <tr>
+                            <th width="6%">Id</th>
+                            <th width="32%">Nome</th>
+                            <th width="22%">Início</th>
+                            <th width="23%">Local</th>
+                            <th width="15%" colspan="3">Ferramentas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                        {
+                            @foreach (var evento in Model)
+                            {
+                                <tr>
+                                    <td>@evento.Id</td>
+                                    <td>@evento.Nome</td>
+                                    <td>@evento.DataInicial</td>
+                                    <td>@evento.Local</td>
+                                    <td>
+                                        <a class="btn-block btn-sm btn btn-info" data-toggle="collapse" href="#eventoDescricao@{@evento.Id}">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Eventos" asp-route-Id="@evento.Id" asp-action="UpdateEvento" class="btn-block btn-sm btn btn-success">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Eventos" asp-route-Id="@evento.Id" asp-action="DeleteEvento" class="btn-block btn-sm btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" class="p-0">
+                                        <div class="collapse" id="eventoDescricao@{@evento.Id}">
+                                            <div class="card card-body container pb-1">
+                                                <div class="row mb-3">
+                                                    <div class="card-text col">
+                                                        @evento.Descricao
+                                                    </div>
+                                                    <div class="col-4 border card-body bg-light px-3 py-2">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                Participantes: @evento.Participantes
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <partial name="_ListaParticipantesPartial" model="evento" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer row">
+                                                    <div class="col row">
+                                                        <label class="col-auto">Tipo: @evento.Tipo</label>
+                                                        <label class="col-auto">De @evento.DataInicial a @evento.DataFinal</label>
+                                                    </div>
+                                                    <div class="col-6 row justify-content-end">
+                                                        <label class="col-auto">Criado em: @evento.DataCriado</label>
+                                                        <label class="col-auto">Alterado em: @evento.DataAlterado</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td class="text-center" colspan="5">Sem eventos agendados</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+}

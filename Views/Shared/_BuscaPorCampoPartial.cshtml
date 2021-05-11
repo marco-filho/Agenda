@@ -1,0 +1,19 @@
+﻿@model Evento
+
+<form class="col px-2 ml-4 form-group" method="post">
+    <div class="row">
+        <div class="col-auto py-1">
+            <label>Data inicial</label>
+            <input asp-for="DataInicial" class="form-control" type="datetime-local" value="" />
+        </div>
+        <div class="col-auto py-1">
+            <label>Data final</label>
+            <input asp-for="DataFinal" class="form-control" type="datetime-local" value="" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col pt-2">
+            <button class="float-left btn btn-info" type="submit">Pesquisar</button>
+        </div>
+    </div>
+</form>
