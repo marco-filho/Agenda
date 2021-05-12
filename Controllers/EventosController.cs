@@ -75,6 +75,9 @@ namespace Agenda.Desktop.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (evento.ListaDeParticipantes.Count() > 10000)
+                    return View(evento);
+
                 var usuario = await userManager.GetUserAsync(this.User);
                 if (evento.ListaDeParticipantes == null)
                     evento.ListaDeParticipantes = Enumerable.Empty<Participante>();
@@ -85,8 +88,12 @@ namespace Agenda.Desktop.Controllers
 
                 foreach (var participante in evento.ListaDeParticipantes)
                 {
+                    if (evento.ListaDeParticipantes.Count(p => p.Username == participante.Username) > 1)
+                        return BadRequest();
+
                     var usuarioParticipante = userManager.Users
                         .FirstOrDefault(u => u.UserName == participante.Username);
+
                     if (usuarioParticipante != null)
                         participante.Nome = usuarioParticipante.Nome;
                     else
@@ -158,7 +165,7 @@ namespace Agenda.Desktop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<List<Participante>> SearchUsersAsync([FromBody] string entrada)
         {
-            if (entrada == null || entrada == "")
+            if (entrada == null || entrada.Trim() == "")
                 return null;
 
             var usuario = await userManager.GetUserAsync(this.User);
@@ -167,6 +174,10 @@ namespace Agenda.Desktop.Controllers
                 && p.UserName != usuario.UserName)
                 .OrderByDescending(p => p.Nome)
                 .Take(10).ToList();
+
+            if (query.Count == 0)
+                return null;
+
             query.TrimExcess();
 
             var match = new List<Participante>();
